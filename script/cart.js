@@ -5,24 +5,35 @@ const getProduct = () => {
   const product = productEl.value;
   const quantity = quantityEl.value;
 
-  const productContainer = document.getElementById("product-container");
-  const li = document.createElement("li");
-  li.innerText = `${product} : ${quantity}`;
-  productContainer.append(li);
+  displayProduct(product, quantity);
 
-  setToCart(product,quantity);
+  setToCart(product, quantity);
 
   product.value = "";
   quantity.value = "";
 };
 
 const getCart = () => {
-    const cart = {};
-    return cart;
-}
+  let cart = {};
 
-const setToCart = (product,quantity) => {
-    const cart = getCart();
-    cart[product] = quantity;
-    console.log(cart);
-}
+  const cartJSON = localStorage.getItem("cart");
+  if(cartJSON) {
+    cart = JSON.parse(cartJSON);
+  }
+  return cart;
+};
+
+const setToCart = (product, quantity) => {
+  const cart = getCart();
+  cart[product] = quantity;
+
+  const cartJSON = JSON.stringify(cart);
+  localStorage.setItem("cart", cartJSON);
+};
+
+const displayProduct = (product, quantity) => {
+  const productContainer = document.getElementById("product-container");
+  const li = document.createElement("li");
+  li.innerText = `${product} : ${quantity}`;
+  productContainer.append(li);
+};
