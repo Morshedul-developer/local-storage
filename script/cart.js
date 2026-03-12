@@ -41,3 +41,13 @@ const displayProduct = (product, quantity) => {
   li.innerText = `${product} : ${quantity}`;
   productContainer.append(li);
 };
+
+const displayStoredProduct = (product, quantity) => {
+  const cart = getCart();
+  for (const product in cart) {
+    const quantity = cart[product];
+    displayProduct(product,quantity);
+  }
+};
+
+displayStoredProduct();
