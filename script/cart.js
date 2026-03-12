@@ -3,21 +3,21 @@ const quantityEl = document.getElementById("quantity");
 
 const getProduct = () => {
   const product = productEl.value;
-  const quantity = quantityEl.value;
+  const quantity = parseInt(quantityEl.value);
 
   displayProduct(product, quantity);
 
   setToCart(product, quantity);
 
-  product.value = "";
-  quantity.value = "";
+  productEl.value = "";
+  quantityEl.value = "";
 };
 
 const getCart = () => {
   let cart = {};
 
   const cartJSON = localStorage.getItem("cart");
-  if(cartJSON) {
+  if (cartJSON) {
     cart = JSON.parse(cartJSON);
   }
   return cart;
@@ -25,7 +25,11 @@ const getCart = () => {
 
 const setToCart = (product, quantity) => {
   const cart = getCart();
-  cart[product] = quantity;
+  if (cart[product]) {
+    cart[product] = cart[product] + quantity;
+  } else {
+    cart[product] = quantity;
+  }
 
   const cartJSON = JSON.stringify(cart);
   localStorage.setItem("cart", cartJSON);
